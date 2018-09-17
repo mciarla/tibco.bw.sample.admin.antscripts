@@ -6,16 +6,17 @@
 		<sequential>
 			<echo message="Available BW6 Design Tasks"/>
 			<echo message="Validate the modules in the given workspace"/>
-			
+			<echo message="&lt;validateWorkspace workspacelocation=&quot;/Users/lstigter/Documents/Workspaces/businessworks/jmsiteration&quot;/&gt;"/>
+			<echo message=" "/>
 			<echo message="Export project to zip or ear"/>
-			
+			<echo message="&lt;exportProject exporttype=&quot;ear&quot; outputlocation=&quot;/Users/lstigter/Downloads&quot; projectname=&quot;demo&quot; workspacelocation=&quot;/Users/lstigter/Documents/Workspaces/businessworks/jmsiteration&quot;/&gt;"/>
 		</sequential>
 	</macrodef>
 	
 	<macrodef name="validateWorkspace">
 		<attribute name="workspacelocation"/>
 		<sequential>
-	        <exec executable="C:\tibco\bw\6.5\bin\workspace" dir="C:\tibco\bw\6.5\bin">
+	        <exec executable="${executables.bwdesign}" dir="${locations.bw.bin}">
 	        	<arg line="-data @{workspacelocation} validate"/>
 	        </exec>			
 		</sequential>
@@ -29,7 +30,7 @@
 		<attribute name="projectName"/>
 		<attribute name="outputlocation"/>
 		<sequential>
-	        <exec executable="C:\tibco\bw\6.5\bin\workspace" dir="C:\tibco\bw\6.5\bin">
+	        <exec executable="${executables.bwdesign}" dir="${locations.bw.bin}">
 	        	<arg line="-data @{workspacelocation} export -@{exportType} @{projectName} @{outputlocation}"/>
 	        </exec>			
 		</sequential>
@@ -41,7 +42,7 @@
 		<attribute name="workspacelocation"/>
 		<attribute name="projectName"/>
 		<sequential>
-	        <exec executable="${executables.workspace}" dir="${locations.bw.bin}">
+	        <exec executable="${executables.bwdesign}" dir="${locations.bw.bin}">
 	        	<arg line="-data @{workspacelocation} import @{projectName}"/>
 	        </exec>			
 		</sequential>

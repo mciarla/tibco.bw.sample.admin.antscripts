@@ -18,58 +18,21 @@
 		<validateWorkspace workspacelocation="${workspacelocation}"/>
 		</target>
 		
-		
+		<target name="Validate2">
+	<!-- validate the projects -->
+		<validateWorkspace2 workspacelocation="${workspacelocation}"/>
+		</target>
 		
 		<target name="BuildEar">
 	<!-- validate the projects -->
 		<!-- create EAR files -->
-		<exportProject exporttype="ear" outputlocation="${outputlocation}" projectname="${projectname}" workspacelocation="${workspacelocation}"/>
+		<exportProject exporttype="ear" outputlocation="${outputlocation}" projectname="${projectname1}" workspacelocation="${workspacelocation}"/>
 		</target>
-		
 		
 		<target name="CreateDomain">
 		<!-- Create Domain -->
 		<createDomain domainname="${domainname}"/>
 		</target>
-		
-		<target name="CreateAppSpace">
-		<!-- Create AppSpace -->
-		<createAppspace domainname ="${domainname}" appspacename="${appspacename}"/>
-		</target>
-		
-		<target name="CreateAppNode">
-<!-- Create AppNode -->
-		<createAppnode domainname ="${domainname}" appspacename="${appspacename}" appnodename="${appnodename}" anhttpport="${anhttpport}"/>
-			</target>
-			
-			<target name="StartAppSpace">
-			<!-- Start AppSpace -->
-		<startAppspace domainname ="${domainname}" appspacename="${appspacename}" />
-		</target>
-		
-		<target name="StartAppNode">
-			<!-- Start AppNode -->
-		<startAppnode domainname ="${domainname}" appspacename="${appspacename}" appnodename="${appnodename}" />
-		</target>
-		
-		<target name="uploadEar">
-			<!-- Upload Archive -->
-		<uploadEar domainname="${domainname}"  replace="true" earlocation="C:/Users/Administrator/.jenkins/jobs/bw6BuildEar/workspace/${projectname1}_${projectversion}.ear"/>
-		</target>
-		
-		
-		<target name="Deploy">
-			<!-- Deploy Application -->
-		<deployApp domainname="${domainname}" appspacename="${appspacename}" appname="${projectname1}_${projectversion}.ear" />
-		</target>
-		
-		
-		<target name="StartApplication">
-			<!-- Start Application -->
-		<startApp domainname ="${domainname}"  appspacename="${appspacename}" appnodename="${appnodename}" appname="${projectname1} ${applicationversion}"/>
-		</target>
-		
-		
 		
 		
 		

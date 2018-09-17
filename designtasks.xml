@@ -15,7 +15,7 @@
 	<macrodef name="validateWorkspace">
 		<attribute name="workspacelocation"/>
 		<sequential>
-	        <exec executable="C:\tibco\bw\6.5\bin\bwdesign" dir="C:\tibco\bw\6.5\bin">
+	        <exec executable="C:\tibco\bw\6.5\bin\workspace" dir="C:\tibco\bw\6.5\bin">
 	        	<arg line="-data @{workspacelocation} validate"/>
 	        </exec>			
 		</sequential>
@@ -29,7 +29,7 @@
 		<attribute name="projectName"/>
 		<attribute name="outputlocation"/>
 		<sequential>
-	        <exec executable="C:\tibco\bw\6.5\bin\bwdesign" dir="C:\tibco\bw\6.5\bin">
+	        <exec executable="C:\tibco\bw\6.5\bin\workspace" dir="C:\tibco\bw\6.5\bin">
 	        	<arg line="-data @{workspacelocation} export -@{exportType} @{projectName} @{outputlocation}"/>
 	        </exec>			
 		</sequential>
@@ -41,7 +41,7 @@
 		<attribute name="workspacelocation"/>
 		<attribute name="projectName"/>
 		<sequential>
-	        <exec executable="${executables.bwdesign}" dir="${locations.bw.bin}">
+	        <exec executable="${executables.workspace}" dir="${locations.bw.bin}">
 	        	<arg line="-data @{workspacelocation} import @{projectName}"/>
 	        </exec>			
 		</sequential>

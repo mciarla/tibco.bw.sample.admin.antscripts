@@ -23,7 +23,7 @@
 		<target name="BuildEar">
 	<!-- validate the projects -->
 		<!-- create EAR files -->
-		<exportProject exporttype="ear" outputlocation="${outputlocation}" projectname="${projectname1}" workspacelocation="${workspacelocation}"/>
+		<exportProject exporttype="ear" outputlocation="${outputlocation}" projectname="${projectname}" workspacelocation="${workspacelocation}"/>
 		</target>
 		
 		

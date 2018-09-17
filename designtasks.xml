@@ -6,17 +6,16 @@
 		<sequential>
 			<echo message="Available BW6 Design Tasks"/>
 			<echo message="Validate the modules in the given workspace"/>
-			<echo message="&lt;validateWorkspace workspacelocation=&quot;/Users/lstigter/Documents/Workspaces/businessworks/jmsiteration&quot;/&gt;"/>
-			<echo message=" "/>
+			
 			<echo message="Export project to zip or ear"/>
-			<echo message="&lt;exportProject exporttype=&quot;ear&quot; outputlocation=&quot;/Users/lstigter/Downloads&quot; projectname=&quot;demo&quot; workspacelocation=&quot;/Users/lstigter/Documents/Workspaces/businessworks/jmsiteration&quot;/&gt;"/>
+			
 		</sequential>
 	</macrodef>
 	
 	<macrodef name="validateWorkspace">
 		<attribute name="workspacelocation"/>
 		<sequential>
-	        <exec executable="${executables.bwdesign}" dir="${locations.bw.bin}">
+	        <exec executable="${executables.bwdesign}" dir="${C:\tibco\bw\6.5\bin}">
 	        	<arg line="-data @{workspacelocation} validate"/>
 	        </exec>			
 		</sequential>

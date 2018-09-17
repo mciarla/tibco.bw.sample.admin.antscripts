@@ -1,0 +1,51 @@
+<project name="bw6designtasks">
+	<!-- Register Ant Contrib tasks --> 
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	
+	<macrodef name="designTasksHelp">
+		<sequential>
+			<echo message="Available BW6 Design Tasks"/>
+			<echo message="Validate the modules in the given workspace"/>
+			<echo message="&lt;validateWorkspace workspacelocation=&quot;/Users/lstigter/Documents/Workspaces/businessworks/jmsiteration&quot;/&gt;"/>
+			<echo message=" "/>
+			<echo message="Export project to zip or ear"/>
+			<echo message="&lt;exportProject exporttype=&quot;ear&quot; outputlocation=&quot;/Users/lstigter/Downloads&quot; projectname=&quot;demo&quot; workspacelocation=&quot;/Users/lstigter/Documents/Workspaces/businessworks/jmsiteration&quot;/&gt;"/>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="validateWorkspace">
+		<attribute name="workspacelocation"/>
+		<sequential>
+	        <exec executable="${executables.bwdesign}" dir="${locations.bw.bin}">
+	        	<arg line="-data @{workspacelocation} validate"/>
+	        </exec>			
+		</sequential>
+	</macrodef>
+	
+	
+	
+	<macrodef name="exportProject">
+		<attribute name="workspacelocation"/>
+		<attribute name="exportType" default="ear"/>
+		<attribute name="projectName"/>
+		<attribute name="outputlocation"/>
+		<sequential>
+	        <exec executable="${executables.bwdesign}" dir="${locations.bw.bin}">
+	        	<arg line="-data @{workspacelocation} export -@{exportType} @{projectName} @{outputlocation}"/>
+	        </exec>			
+		</sequential>
+	</macrodef>
+	
+	
+
+	<!--<macrodef name="importProject">
+		<attribute name="workspacelocation"/>
+		<attribute name="projectName"/>
+		<sequential>
+	        <exec executable="${executables.bwdesign}" dir="${locations.bw.bin}">
+	        	<arg line="-data @{workspacelocation} import @{projectName}"/>
+	        </exec>			
+		</sequential>
+	</macrodef>--> 
+
+</project>

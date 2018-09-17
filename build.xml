@@ -1,0 +1,76 @@
+<project name="bw6 Pipeline" >
+
+	<!-- Set default properties -->
+	<property name="executables.bwadmin" value="C:/tibco/bw/6.5/bin/bwadmin"/>
+	<property name="executables.bwdesign" value="C:/tibco/bw/6.5/bin/bwdesign"/>
+	<property name="locations.bw.bin" value="C:/tibco/bw/6.5/bin"/>
+	
+	<!-- Load additional properties -->
+	<property file="build.properties"/>	
+		
+	<!-- Import the BW6 Design Tasks -->
+	<import file="designtasks.xml"/>
+	<!-- Import the BW6 Admin Tasks -->
+	<import file="admintasks.xml"/>
+	
+	<target name="Validate">
+	<!-- validate the projects -->
+		<validateWorkspace workspacelocation="${workspacelocation}"/>
+		</target>
+		
+		
+		
+		<target name="BuildEar">
+	<!-- validate the projects -->
+		<!-- create EAR files -->
+		<exportProject exporttype="ear" outputlocation="${outputlocation}" projectname="${projectname1}" workspacelocation="${workspacelocation}"/>
+		</target>
+		
+		
+		<target name="CreateDomain">
+		<!-- Create Domain -->
+		<createDomain domainname="${domainname}"/>
+		</target>
+		
+		<target name="CreateAppSpace">
+		<!-- Create AppSpace -->
+		<createAppspace domainname ="${domainname}" appspacename="${appspacename}"/>
+		</target>
+		
+		<target name="CreateAppNode">
+<!-- Create AppNode -->
+		<createAppnode domainname ="${domainname}" appspacename="${appspacename}" appnodename="${appnodename}" anhttpport="${anhttpport}"/>
+			</target>
+			
+			<target name="StartAppSpace">
+			<!-- Start AppSpace -->
+		<startAppspace domainname ="${domainname}" appspacename="${appspacename}" />
+		</target>
+		
+		<target name="StartAppNode">
+			<!-- Start AppNode -->
+		<startAppnode domainname ="${domainname}" appspacename="${appspacename}" appnodename="${appnodename}" />
+		</target>
+		
+		<target name="uploadEar">
+			<!-- Upload Archive -->
+		<uploadEar domainname="${domainname}"  replace="true" earlocation="C:/Users/Administrator/.jenkins/jobs/bw6BuildEar/workspace/${projectname1}_${projectversion}.ear"/>
+		</target>
+		
+		
+		<target name="Deploy">
+			<!-- Deploy Application -->
+		<deployApp domainname="${domainname}" appspacename="${appspacename}" appname="${projectname1}_${projectversion}.ear" />
+		</target>
+		
+		
+		<target name="StartApplication">
+			<!-- Start Application -->
+		<startApp domainname ="${domainname}"  appspacename="${appspacename}" appnodename="${appnodename}" appname="${projectname1} ${applicationversion}"/>
+		</target>
+		
+		
+		
+		
+		
+</project>

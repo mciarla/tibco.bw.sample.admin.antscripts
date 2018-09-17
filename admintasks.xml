@@ -1,0 +1,183 @@
+<project name="bw6admintasks">
+	<!-- Register Ant Contrib tasks --> 
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+	<macrodef name="adminTasksHelp">
+		<sequential>
+			<echo message="Available BW6 Admin Tasks"/>
+			
+			<echo message="Create a domain"/>
+		    <echo message="&lt;createDomain domainName=&quot;antdomain&quot;/>;"/>
+		    <echo message=" "/>
+		    <echo message="Create an appspace"/>
+		    		    <echo message="&lt;createAppspace domainname=&quot;antdomain&quot; appspacename=&quot;antspace&quot;/>;"/>
+		    <echo message=" "/>
+		    <echo message="Create an appnode"/>
+		    		    <echo message="&lt;createAppnode domainname=&quot;antdomain&quot; appspacename=&quot;antspace&quot; appnodename=&quot;antnode&quot; httpport=&quot;8062&quot; osgiport=&quot;8063&quot;/>;"/>
+		    <echo message=" "/>
+		    
+		    <echo message="Upload an application"/>
+		    <echo message="&lt;uploadEar domainname=&quot;antdomain&quot; appPath=&quot;apps/true&quot; replace=&quot;true&quot; earlocation=&quot;/Users/lstigter/Downloads/demo_1.0.0.ear&quot;/>;"/>
+		    <echo message=" "/>
+		    
+		    <echo message="Deploy an application"/>
+		    <echo message="&lt;deployApp domainname=&quot;antdomain&quot; appspacename=&quot;antspace&quot; appname=&quot;demo_1.0.0.ear&quot; apppath=&quot;apps/true&quot;/>;"/>
+		    <echo message=" "/>
+		    
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="setAdminMode">
+		<attribute name="adminMode"/>
+	    <sequential>
+	    	<fail message="The mode '@{adminMode}' is not recognized, use either 'local' or 'enterprise'">
+	    		<condition>
+	    			<and>
+		    			<not>
+		    				<equals arg1="@{adminMode}" arg2="enterprise"/>
+		    			</not>
+		    			<not>
+		    				<equals arg1="@{adminMode}" arg2="local"/>
+		    			</not>
+	    			</and>
+	    		</condition>
+	    	</fail>
+	        <exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+	        	<arg line="mode @{adminMode}"/>
+	        </exec>
+	    </sequential>
+	</macrodef>
+	
+	<macrodef name="createDomain">
+			<attribute name="domainName"/>
+			<sequential>
+		        <exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+		        	<arg line="create domain @{domainName}"/>
+		        </exec>
+		    </sequential>
+		</macrodef>
+		
+		<macrodef name="createAppspace">
+			<attribute name="domainName"/>
+			<attribute name="appspaceName"/>
+			<sequential>
+		        <exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+		        	<arg line="create -d @{domainName} appspace @{appspaceName}"/>
+		        </exec>
+		    </sequential>
+	</macrodef>
+	
+	<macrodef name="createAppnode">
+		<attribute name="domainName"/>
+		<attribute name="appspaceName"/>
+		<attribute name="appnodeName"/>
+		<attribute name="AnHttpport" default="1"/>
+		<attribute name="osgiPort" default="1"/>
+		<sequential>
+			<if>
+				<length string="@{osgiPort}" when="gt" length="3"/>
+				<then>
+					<property name="argline" value="create -d @{domainName} -a @{appspaceName} -httpPort @{AnHttpport} -op @{osgiPort} appnode @{appnodeName}"/>
+				</then>
+				<else>
+					<property name="argline" value="create -d @{domainName} -a @{appspaceName} -httpPort @{AnHttpport} appnode @{appnodeName}"/>
+				</else>
+			</if>
+	        <exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+	        	<arg line="${argline}"/>
+	        </exec>
+		</sequential>		
+	</macrodef>
+	
+	<macrodef name="uploadEar">
+		<attribute name="earLocation"/>
+				<attribute name="domainName"/>
+		<attribute name="replace" default="true"/>
+			<sequential>
+				<var name="argline" value="@{earLocation}"/>
+				<if>
+					<equals arg1="@{replace}" arg2="true"/>
+					<then>
+						<var name="argline" value="-r ${argline}"/>
+					</then>
+				</if>
+				
+				<var name="argline" value="upload -d @{domainName} ${argline}"/>
+				<exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+		        	<arg line="${argline}"/>
+		        </exec>
+							</sequential>
+	</macrodef>
+
+	<macrodef name="deployApp">
+		<attribute name="domainName"/>
+		<attribute name="appspaceName"/>
+		<attribute name="appName"/>
+				<attribute name="appProfile" default="1"/>
+		<sequential>
+			<var name="argline" value="@{appName}"/>
+			
+			<if>
+				<length string="@{appProfile}" when="gt" length="1"/>
+				<then>
+					<var name="argline" value="-p @{appProfile} ${argline}"/>
+				</then>
+			</if>
+			<var name="argline" value="deploy -d @{domainName} -a @{appspaceName} ${argline}"/>
+			<echo message="${argline}"/>
+	        <exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+	        	<arg line="${argline}"/>
+	        </exec>
+					</sequential>
+	</macrodef>
+	
+<macrodef name="startAppspace">
+<attribute name="domainName"/>
+<attribute name="appspaceName"/>
+<sequential>
+			<if>
+				<length string="@{osgiPort}" when="gt" length="3"/>
+				<then>
+<property name="argline" value="start -d @{domainName} appspace @{appspaceName} "/>
+</then>
+<else></else>
+</if>
+<exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+	        	<arg line="${argline}"/>
+	        </exec>
+			</sequential>
+		</macrodef>
+		
+<macrodef name="startAppnode">
+<attribute name="domainName"/>
+<attribute name="appspaceName"/>
+<attribute name="appnodeName"/>
+<sequential>
+<exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+<arg line="start -d @{domainName} -a @{appspaceName} appnode @{appnodeName} "/>
+	        </exec>
+			</sequential>
+		</macrodef>
+		
+		
+<macrodef name="startApp">
+<attribute name="domainName"/>
+<attribute name="appspaceName"/>
+<attribute name="appnodeName"/>
+<attribute name="appName"/>
+<sequential>
+			<var name="argline" value="@{appName}"/>
+<var name="argline" value="start -d @{domainName} -a @{appspaceName} -n @{appnodeName} application @{appName} "/>
+<echo message="${argline}"/>
+
+<exec executable="${executables.bwadmin}" dir="${locations.bw.bin}">
+	        	<arg line="${argline}"/>
+	        </exec>
+			</sequential>
+		</macrodef>
+		
+		
+		
+		
+		
+</project>

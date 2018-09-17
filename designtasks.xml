@@ -15,7 +15,7 @@
 	<macrodef name="validateWorkspace">
 		<attribute name="workspacelocation"/>
 		<sequential>
-	        <exec executable="${executables.bwdesign}" dir="${C:\tibco\bw\6.5\bin}">
+	        <exec executable="${executables.bwdesign}" dir="C:\tibco\bw\6.5\bin">
 	        	<arg line="-data @{workspacelocation} validate"/>
 	        </exec>			
 		</sequential>
